@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NS FLAME </title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+    header {
+      background: #333;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+    nav {
+      background: #444;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    nav a {
+      padding: 1em;
+      color: white;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background: #666;
+    }
+    .content {
+      padding: 20px;
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+    textarea, input[type="text"], button, input[type="file"] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      font-size: 1em;
+    }
+    .report-box {
+      background: white;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-left: 5px solid #007BFF;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    video {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>NS FLME</h1>
+  </header>
+
+  <nav>
+    <a href="#" onclick="showTab('home')">Home</a>
+    <a href="#" onclick="showTab('videos')">Videos</a>
+    <a href="#" onclick="showTab('photos')">Photos</a>
+    <a href="#" onclick="showTab('report')">Report</a>
+    <a href="#" onclick="showTab('upload')">Upload Video</a>
+  </nav>
+
+  <div id="home" class="content active">
+    <h2>Home</h2>
+<p>Welcome to my site.I am <b>NS FLAME</b>.In this site you can see my videos of youtube and posts of my game play.This site is under development so if any of you find  problem in site you can report from report option. </p><h2>LINK TO MY YOUTUBE CHANNEL <a href="https://www.youtube.com/channel/UCNpLcty1rAhKDPXSS3YetbQ">click here</a></h2>
+<img src="logo.jpg" width="200">
+
+    <p></p>
+  </div>
+
+  <div id="videos" class="content">
+    <h2>Videos</h2>
+    <p>Here are no videos at the moment:</p>
+    <video width="320" height="240" controls>
+      <source src="" type="video/mp4" />
+    </video>
+  </div>
+
+  <div id="photos" class="content">
+    <h2>Photos</h2>
+    <p>Here are no photos at the moment:</p>
+    <img src="" alt="" width="300">
+    <img src="" alt="" width="300">
+  </div>
+
+  <div id="report" class="content">
+    <h2>Report a Problem</h2>
+    <form onsubmit="submitReport(event)">
+      <input type="text" id="reporterName" placeholder="Your Name (optional)" />
+      <textarea id="reportText" rows="4" placeholder="Describe the problem..." required></textarea>
+      <button type="submit">Submit Report</button>
+    </form>
+    <h3>Submitted Reports:</h3>
+    <div id="reportList"></div>
+  </div>
+
+  <div id="upload" class="content">
+    <h2>Upload a Video</h2>
+    <input type="file" id="videoUpload" accept="video/*" />
+    <div id="uploadedVideo"></div>
+  </div>
+
+  <script>
+    function showTab(tabId) {
+      const sections = document.querySelectorAll(".content");
+      sections.forEach(section => section.classList.remove("active"));
+      document.getElementById(tabId).classList.add("active");
+    }
+
+    function submitReport(event) {
+      event.preventDefault();
+      const name = document.getElementById("reporterName").value.trim();
+      const text = document.getElementById("reportText").value.trim();
+      if (text === "") return;
+
+      const reportList = document.getElementById("reportList");
+      const reportBox = document.createElement("div");
+      reportBox.className = "report-box";
+      reportBox.innerHTML = `<strong>${name || "Anonymous"}:</strong><br>${text}`;
+      reportList.prepend(reportBox);
+
+      // Clear inputs
+      document.getElementById("reporterName").value = "";
+      document.getElementById("reportText").value = "";
+    }
+
+    // Video Upload Preview
+    document.getElementById("videoUpload").addEventListener("change", function () {
+      const file = this.files[0];
+      if (file && file.type.startsWith("video/")) {
+        const videoURL = URL.createObjectURL(file);
+        const uploadedVideoDiv = document.getElementById("uploadedVideo");
+        uploadedVideoDiv.innerHTML = `
+          <h3>Uploaded Video Preview:</h3>
+          <video controls>
+            <source src="${videoURL}" type="${file.type}">
+            Your browser does not support the video tag.
+          </video>
+        `;
+      }
+    });
+  </script>
+
+</body>
+</html>
